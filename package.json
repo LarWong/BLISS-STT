@@ -1,0 +1,32 @@
+{
+  "name": "vui_frontend",
+  "version": "0.1.0",
+  "description": "vui_frontend front end",
+  "main": "vui_frontend/js/main.jsx",
+  "author": "akattema",
+  "license": "MIT",
+  "repository": {},
+  "devDependencies": {
+    "@babel/core": "7.8.4",
+    "@babel/preset-env": "7.8.4",
+    "@babel/preset-react": "7.8.3",
+    "babel-eslint": "10.0.3",
+    "babel-loader": "8.0.6",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-react": "7.18.3",
+    "eslint-plugin-react-hooks": "2.3.0",
+    "webpack": "4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "jsonlint": "1.6.3",
+    "moment": "2.24.0",
+    "prop-types": "15.7.2",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "react-infinite-scroll-component": "^5.0.4"
+  }
+}
