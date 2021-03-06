@@ -42,23 +42,22 @@ class VoiceInput extends React.Component {
     render() {
         /* Renders the component */
         // TODO: set classes
+        // TODO: make text hint change on mic icon click
         return (
             <Container className="voiceinput">
-                <img src=".svg" className="voiceinputbubble">
-                    <div className="voiceinputactions">
-                        <table>
-                            <tr>
-                                <td>
-                                    <image src=".svg"></image>
-                                </td>
-                                <td>
-                                    <input name="voicein" placeholder="What can I help you with?" value={voiceinputtext} onChange={this.handleInputChange}></input>
-                                    <Button type="submit" onClick={this.handleInputSubmit} disabled={!this.state.voiceinputtext}>Send</Button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </img>
+                <div className="voiceinputactions">
+                    <table>
+                        <tr>
+                            <td>
+                                <Button type="button"></Button>
+                            </td>
+                            <td>
+                                <input name="voicein" placeholder="What can I help you with?" value={voiceinputtext} onChange={this.handleInputChange}></input>
+                                <Button type="submit" onClick={this.handleInputSubmit} disabled={!this.state.voiceinputtext}>Send</Button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </Container>
         );
     }
