@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import VoiceHints from './voicehints'
 
 class VoicePanel extends React.Component {
     /* Top level component for voice assistant on home page */
