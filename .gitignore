@@ -131,3 +131,6 @@ dmypy.json
 
 # node stuff
 node_modules/
+
+#deepSpeech file
+*.pbmm
