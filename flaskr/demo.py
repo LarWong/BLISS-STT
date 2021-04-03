@@ -13,7 +13,7 @@ class WakeWord():
         # Need to update this with an actual address
         self.url = 'http://127.0.0.1:5000/speech'
         self.pa = pyaudio.PyAudio()
-        self.audio_stream = pa.open(
+        self.audio_stream = self.pa.open(
                         rate=self.handle.sample_rate,
                         channels=1,
                         format=pyaudio.paInt16,

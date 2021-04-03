@@ -46,8 +46,8 @@ spinners==0.0.24
 sqlparse==0.4.1
 termcolor==1.1.0
 urllib3==1.25.11
--e git+https://github.com/LarWong/BLISS-STT.git@458b65567f19d1f100a63111c70e55274ce66e8a#egg=vui_frontend
 wcwidth==0.2.5
 webrtcvad==2.0.10
 Werkzeug==1.0.1
 wrapt==1.11.2
+pvporcupine==1.9.4
