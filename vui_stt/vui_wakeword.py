@@ -31,17 +31,22 @@ class WakeWord():
                 print("DeepSpeech Activated")
                 # wait for 10 seconds
                 # send post request to the flask server
-                requests.get(self.url)
-                time.sleep(self.sleep_time)
-                break
-    
-    def delete(self):
-        self.handle.delete()
+                response = None
+                
+                try:
+                    response = requests.get(self.url)
+                except:
+                    print('Error from server')
+
+                if response:
+                    # Do something with the reponse
+                    print('Server responded')
+                    print(response.text)
+                
 
 def main():
     Listener = WakeWord()
     Listener.run()
-    Listener.delete()
 
 if __name__ == '__main__':
     main()

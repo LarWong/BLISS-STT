@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 import requests
+from vui_deepspeech import *
+from vui_wakeword import *
 
 def create_app(test_config=None):
     # create and config the app
@@ -21,6 +23,8 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    
+    stt_model = STTModel(model='deepspeech-0.9.3-models.pbmm', scorer='deepspeech-0.9.3-models.scorer')
 
     # This is an endpoint
     @app.route('/')
@@ -32,10 +36,11 @@ def create_app(test_config=None):
     def speech():
             #Activate DeepSpeech - Assume virtual environment has been created
             #This is an action - this should activate deepspeech
-        os.system('python3 mic_vad_streaming.py -m ../deepspeech-0.9.3-models.pbmm')
-            #This is the response to a request (GET [default])
+        text = stt_model.run()
+        print(text)
+        #This is the response to a request (GET [default])
             
-        return 'DeepSpeech Activated' # RESP: 200 [DEMO]
+        return text # RESP: 200 [DEMO]
 
 
     return app
