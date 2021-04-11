@@ -32,14 +32,14 @@ class WakeWord():
                 # wait for 10 seconds
                 # send post request to the flask server
                 response = None
-                
+
                 try:
                     response = requests.get(self.url)
                 except:
                     print('Error from server')
 
                 if response:
-                    # Do something with the reponse
+                    # Do something with the response
                     print('Server responded')
                     print(response.text)
                 

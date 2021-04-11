@@ -134,3 +134,6 @@ node_modules/
 
 #deepSpeech file
 *.pbmm
+*.scorer
+*.ppn
+notes
