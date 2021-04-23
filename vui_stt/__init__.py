@@ -26,22 +26,19 @@ def create_app(test_config=None):
     
     stt_model = STTModel(model='deepspeech-0.9.3-models.pbmm', scorer='deepspeech-0.9.3-models.scorer')
 
-    # This is an endpoint
-    @app.route('/')
-    def hello():
-        # this is just to make sure that it works
-        return 'Hello, World!' # RESP: 200 [DEMO]
-
     @app.route('/speech')
     def speech():
-            #Activate DeepSpeech - Assume virtual environment has been created
-            #This is an action - this should activate deepspeech
+        # Activate DeepSpeech - Assume virtual environment has been created
+        # This is an action - this should activate deepspeech
         text = stt_model.run()
         print(text)
-        #This is the response to a request (GET [default])
-            
         return text # RESP: 200 [DEMO]
 
+    # This checks the status of the server
+    @app.route('/status')
+    def status():
+        # this is just to make sure that it works
+        return 'OK' # RESP: 200 [DEMO]
 
     return app
 

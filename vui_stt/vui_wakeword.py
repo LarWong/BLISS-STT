@@ -3,15 +3,23 @@ import struct
 import pyaudio
 import time
 import requests
+import torch
+import sounddevice as sd
+import numpy
 
 class WakeWord():
-    def __init__(self):
+    def __init__(self, pv_model='./hey_diego_linux_2021-05-23-utc_v1_9_0.ppn',
+                       speech_url='http://127.0.0.1:5000/speech',
+                       status_url='http://127.0.0.1:5000/status'):
         self.handle = pvporcupine.create(
                     keyword_paths=[
-                    './hey_diego_linux_2021-04-17-utc_v1_9_0.ppn'
+                    pv_model
                     ])
+        # Hey computer for the time being
+        #self.handle = pvporcupine.create(keywords=['computer'])
         # Need to update this with an actual address
-        self.url = 'http://127.0.0.1:5000/speech'
+        self.url = speech_url
+        self.status_url = status_url
         self.pa = pyaudio.PyAudio()
         self.audio_stream = self.pa.open(
                         rate=self.handle.sample_rate,
@@ -19,8 +27,14 @@ class WakeWord():
                         format=pyaudio.paInt16,
                         input=True,
                         frames_per_buffer=self.handle.frame_length)
-        self.sleep_time = 10
+        # Download dependencies
+        self.synthesizer = torch.hub.load('coqui-ai/TTS:dev', 'tts', source='github')
     
+    def speak(self, output_text):
+        wav = self.synthesizer.tts(output_text)
+        sd.play(wav, self.synthesizer.ap.sample_rate)
+        sd.wait()
+
     def run(self):
         while True:
             pcm = self.audio_stream.read(self.handle.frame_length)
@@ -28,21 +42,33 @@ class WakeWord():
             keyword_index = self.handle.process(pcm)
             if keyword_index >= 0:
                 print("Wake Word Detected")
-                print("DeepSpeech Activated")
-                # wait for 10 seconds
-                # send post request to the flask server
+
                 response = None
 
+                # check if connection to server is established
+                try:
+                    response = requests.get(self.status_url)
+                except:
+                    print('Error from server')
+                
+                if not response:
+                    self.speak('Sorry. No connection to server. Please try again.')
+                    continue
+
+                self.speak('How may I help you?')
+                print("DeepSpeech Activated")
+
+                # send post request to the flask server
                 try:
                     response = requests.get(self.url)
                 except:
                     print('Error from server')
 
-                if response:
-                    # Do something with the response
-                    print('Server responded')
-                    print(response.text)
-                
+                output_text = response.text if response else 'Sorry, something went wrong. Please try again'
+
+                # Do something with the response
+                self.speak(output_text)
+                                   
 
 def main():
     Listener = WakeWord()
