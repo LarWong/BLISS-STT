@@ -201,14 +201,10 @@ class STTModel():
                     vad_audio.write_wav(os.path.join(savewav, datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav")), wav_data)
                     wav_data = bytearray()
                 text = stream_context.finishStream()
-                print("Recognized: %s" % text)
-                myObj = {
-                    "sender":"user",
-                    "message":text,
-                }
-                response = requests.post("http://localhost:5005/webhooks/rest/webhook", data = myObj)
-                # Return RASA response
-                return response.json()["text"]
+                print("Recognized: %s" % text) # This shows up on Flask
+                
+                # Return DeepSpeech response
+                return text
 
 
 def main():

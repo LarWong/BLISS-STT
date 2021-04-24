@@ -6,6 +6,7 @@ import requests
 import torch
 import sounddevice as sd
 import numpy
+import json
 
 class WakeWord():
     def __init__(self, pv_model='./hey_diego_linux_2021-05-23-utc_v1_9_0.ppn',
@@ -64,10 +65,21 @@ class WakeWord():
                 except:
                     print('Error from server')
 
-                output_text = response.text if response else 'Sorry, something went wrong. Please try again'
-
-                # Do something with the response
-                self.speak(output_text)
+                transcribed_text = response.text if response else 'Sorry, something went wrong. Please try again'
+                # Text might not be a string
+                payload = {
+                    'sender':'test',
+                    'message':transcribed_text
+                }
+                headers = {
+                    'content-type': 'application/json'
+                }
+                # Send it over to RASA
+                response_rasa = requests.post('http://localhost:5005/webhooks/rest/webhook', json = payload, headers = headers)
+                # print(response_rasa.text)
+                feedback = json.loads(response_rasa.content) if response_rasa else 'Sorry, I could not reach the server. Please try again'
+                # Invoke TTS
+                self.speak(feedback[0]['text'])
                                    
 
 def main():
