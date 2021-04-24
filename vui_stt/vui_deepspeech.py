@@ -8,6 +8,7 @@ import wave
 import webrtcvad
 from halo import Halo
 from scipy import signal
+import requests
 
 class Audio(object):
     """Streams raw audio from microphone. Data is received in a separate thread, and stored in a buffer, to be read from."""
@@ -201,7 +202,13 @@ class STTModel():
                     wav_data = bytearray()
                 text = stream_context.finishStream()
                 print("Recognized: %s" % text)
-                return text
+                myObj = {
+                    "sender":"user",
+                    "message":text,
+                }
+                response = requests.post("http://localhost:5005/webhooks/rest/webhook", data = myObj)
+                # Return RASA response
+                return response.json()["text"]
 
 
 def main():
